@@ -5,11 +5,12 @@ class UserManage extends DbConnect
 {
     public function verify($email, $password)
     {
-        $dbLink = $this->connect();
         try {
-            $request = $dbLink->prepare('SELECT Id, Nickname, Mail, Password 
-                                               FROM users
-                                               WHERE Mail = :mail');
+            $dbLink = $this->connect();
+            $request = $dbLink->prepare(
+                'SELECT Id, Nickname, Mail, Password '.
+                'FROM users '.
+                'WHERE Mail = :mail');
             $request->bindValue(':mail', $email, PDO::PARAM_STR);
             $request->execute();
             if ($request->rowCount()) {
@@ -25,7 +26,7 @@ class UserManage extends DbConnect
         }
         catch (PDOException $e){
             echo 'Erreur : ' , $e->getMessage(), PHP_EOL;
-            exit();
+            return false;
         }
 
     }

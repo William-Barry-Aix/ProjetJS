@@ -3,19 +3,21 @@ include_once '../UserManage.php';
 session_start();
 
 $resultat = new stdClass();
-$resultat->valide = false;
 $resultat->raison = '';
 $db = new UserManage();
 
-if (isset($_POST['identifiant'])
-    && isset($_POST['mot_de_passe'])) {
-    if ($db->verify($_POST['identifiant'], $_POST['mot_de_passe'])) {
-        $_SESSION['identifiant'] = 'admin';
-        $resultat->valide = true;
+if ($resultat->valide != true) {
+    if (isset($_POST['identifiant'])
+        && isset($_POST['mot_de_passe'])) {
+        if ($db->verify($_POST['identifiant'], $_POST['mot_de_passe'])) {
+            $resultat->valide = true;
+        } else {
+            $resultat->valide = false;
+            $resultat->raison = 'Identifiant ou mot de passe invalide.';
+        }
     }
-    else {
-        $resultat->raison = 'Identifiant ou mot de passe invalide.';
-    }
+}else{
+
 }
 
 header('Cache-Control: no-cache, must-revalidate');

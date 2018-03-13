@@ -11,7 +11,7 @@
 
     function connexion(data) {
         if (exists(data['valide'])) {
-            if (data['valide']) {
+            if (data['valide'] || FB.getUserID()) {
                 console.log('Connexion réussie !');
                 location.reload();
             }
@@ -25,17 +25,21 @@
         }
     }
 
-    function déconnexion() {
+    function deconnexion() {
+        if (FB.getUserID()){
+            FB.logout();
+        }
+        console.log(FB.getUserID());
         location.reload();
     }
 
     function test_connexion(data) {
         if (exists(data['oui'])) {
-            if (data['oui']) {
+            if (data['oui'] || FB.getUserID()) {
                 $('#connexion').css({
                     'display': 'none'
                 });
-                $('#déconnexion').css({
+                $('#deconnexion').css({
                     'display': 'unset'
                 });
                 new Damier(3, 3, 3, '#damier');
@@ -44,7 +48,7 @@
                 $('#connexion').css({
                     'display': 'unset'
                 });
-                $('#déconnexion').css({
+                $('#deconnexion').css({
                     'display': 'none'
                 });
             }
@@ -66,22 +70,57 @@
             return false;
         });
 
-        $('#déconnexion').submit(() => {
+        $('#deconnexion').submit(() => {
             $.ajax({
-                'url': 'php/sessions/déconnexion.php',
+                'url': 'php/sessions/deconnexion.php',
                 'method': 'POST',
                 'data': $('#connexion').serialize()
             })
-                .done(déconnexion)
+                .done(deconnexion)
                 .fail(erreur);
             return false;
         });
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '550387488661485',
+                cookie     : true,  // enable cookies to allow the server to access
+                                    // the session
+                xfbml      : true,  // parse social plugins on this page
+                version    : 'v2.8', // use graph api version 2.8
+                status     : true
+            });
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        };
+
+        // Load the SDK asynchronously
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
 
         $.ajax({
             'url': 'php/sessions/est_connecte.php',
         })
             .done((data) => {test_connexion(data);})
             .fail(erreur);
+        });
 
-    });
 })();
+function checkLoginState() {
+    FB.getLoginStatus(function(response){
+        statusChangeCallback(response);
+        if (response.status === 'connected'){
+            location.reload();
+        }
+    });
+}
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+
+}

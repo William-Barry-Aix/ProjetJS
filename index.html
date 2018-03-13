@@ -15,20 +15,26 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
+
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
 
         <!-- Connexion -->
         <form id="connexion">
-          <input name="identifiant" placeholder="Identifiant"><br>
-          <input name="mot_de_passe" type="password"><br>
-          <button type="submit" value="Connexion">Connexion</button>
+            <input name="identifiant" placeholder="Identifiant"><br>
+            <input name="mot_de_passe" type="password"><br>
+            <button type="submit" value="Connexion">Connexion</button>
+            <div class="fb-login-button" onlogin="checkLoginState();" data-max-rows="1" data-size="small" data-button-type="login_with"
+                 data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false">
+            </div>
+            <div id="status">
+            </div>
         </form>
         <br>
 
         <!-- Déconnexion -->
-        <form id="déconnexion">
+        <form id="deconnexion">
           <button type="submit" value="Déconnexion">Déconnexion</button>
         </form>
         <br>
@@ -40,5 +46,6 @@
         <script src="js/plugins.js"></script>
         <script src="js/damier.js"></script>
         <script src="js/sessions.js"></script>
+
     </body>
 </html>

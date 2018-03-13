@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="60dd6528-150c-4cdb-add2-d23e545fed43" name="AlwaysData" url="http://ftp-phortfal.alwaysdata.net">
+        <fileTransfer host="ftp-phortfal.alwaysdata.net" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
